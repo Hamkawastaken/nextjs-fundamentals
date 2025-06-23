@@ -5,7 +5,7 @@ export default function DetailProductPage(props: DetailProductPageProps) {
   console.log(params);
   return (
     <>
-      <h1>Detail Product Page</h1>
+      <h1>{params.slug ? "Detail Product Page" : "Products Page"}</h1>
       {params.slug && (
         <>
           <p>Category : {params.slug[0]}</p>
