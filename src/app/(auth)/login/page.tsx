@@ -1,6 +1,38 @@
+"use client";
+
 import Link from "next/link";
 
 export default function LoginPage() {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log("✅ Berhasil login:", data);
+      alert("Login berhasil!");
+    } catch (error) {
+      console.error("❌ Gagal login:", error);
+      alert("Gagal login. Lihat console untuk detail.");
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +48,12 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={(e) => handleLogin(e)}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -80,7 +117,7 @@ export default function LoginPage() {
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Sign Up
-            </Link> 
+            </Link>
           </p>
         </div>
       </div>
