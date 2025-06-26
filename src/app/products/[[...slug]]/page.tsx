@@ -9,7 +9,10 @@ type Products = {
 async function getData() {
   // const response = await fetch("https://fakestoreapi.com/products");
   const response = await fetch("http://localhost:3000/api/product", {
-    cache: "no-cache",
+    cache: "force-cache",
+    next: {
+      revalidate: 30,
+    },
   });
 
   if (!response.ok) {
