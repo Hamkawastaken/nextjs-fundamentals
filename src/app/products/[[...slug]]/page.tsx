@@ -11,7 +11,8 @@ async function getData() {
   const response = await fetch("http://localhost:3000/api/product", {
     cache: "force-cache",
     next: {
-      revalidate: 30,
+      tags: ["products"],
+      // revalidate: 30,
     },
   });
 
